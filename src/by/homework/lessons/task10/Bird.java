@@ -53,17 +53,33 @@ public class Bird extends Animal {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false; // Сравниваем поля родительского класса
-        Bird bird = (Bird) o;
-        return maxFlightAltitude == bird.maxFlightAltitude &&
-                Objects.equals(family, bird.family);
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+
+        if (getClass() != obj.getClass())
+            return false;
+
+        Bird other = (Bird) obj;
+
+        if (maxFlightAltitude != other.maxFlightAltitude)
+            return false;
+
+        if (family == null) {
+            if (other.family != null)
+                return false;
+        } else if (!family.equals(other.family))
+            return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), family, maxFlightAltitude); // Включаем hashCode родительского класса
+        int result = super.hashCode();
+        result = 31 * result + (family == null ? 0 : family.hashCode());
+        result = 31 * result + maxFlightAltitude;
+        return result;
     }
 }

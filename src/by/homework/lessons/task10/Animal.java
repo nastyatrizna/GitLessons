@@ -51,18 +51,42 @@ public class Animal {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Animal animal = (Animal) o;
-        return id == animal.id &&
-                maxLifeLong == animal.maxLifeLong &&
-                Objects.equals(color, animal.color) &&
-                Objects.equals(foodType, animal.foodType);
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+
+        Animal other = (Animal) obj;
+
+        if (id != other.id)
+            return false;
+        if (maxLifeLong != other.maxLifeLong)
+            return false;
+        if (color == null) {
+            if (other.color != null)
+                return false;
+        } else if (!color.equals(other.color))
+            return false;
+
+        if (foodType == null) {
+            if (other.foodType != null)
+                return false;
+        } else if (!foodType.equals(other.foodType))
+            return false;
+        return true;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, color, maxLifeLong, foodType);
+        int result = 17; // Простое начальное значение
+        result = 31 * result + id; // Используем простое число (31) для умножения
+        result = 31 * result + (color == null ? 0 : color.hashCode());
+        result = 31 * result + maxLifeLong;
+        result = 31 * result + (foodType == null ? 0 : foodType.hashCode());
+        return result;
     }
 }

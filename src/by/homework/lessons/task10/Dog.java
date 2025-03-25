@@ -64,18 +64,41 @@ public class Dog extends Animal {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false; // Сравниваем поля родительского класса
-        Dog dog = (Dog) o;
-        return Double.compare(dog.averageWeight, averageWeight) == 0 &&
-                Objects.equals(name, dog.name) &&
-                Objects.equals(breed, dog.breed);
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;  // Сначала сравниваем поля Animal
+
+        if (getClass() != obj.getClass())
+            return false;
+
+        Dog other = (Dog) obj;
+
+        if (Double.doubleToLongBits(averageWeight) != Double.doubleToLongBits(other.averageWeight)) return false;  // для double
+
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+
+        if (breed == null) {
+            if (other.breed != null)
+                return false;
+        } else if (!breed.equals(other.breed))
+            return false;
+        return true;
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, breed, averageWeight); // Включаем hashCode родительского класса
+        int result = super.hashCode(); // Начинаем с hashCode родительского класса
+        result = 31 * result + (name == null ? 0 : name.hashCode());
+        result = 31 * result + (breed == null ? 0 : breed.hashCode());
+        long temp = Double.doubleToLongBits(averageWeight);  // Для double
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
     }
 }
