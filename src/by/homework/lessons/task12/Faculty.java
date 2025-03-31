@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Faculty {
 
-    public Object addGroup;
+
     private String facultyName;
     private List<Group> groups;
     private FacultyStatus status;

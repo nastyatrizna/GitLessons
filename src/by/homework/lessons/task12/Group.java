@@ -34,7 +34,12 @@ public class Group {
     }
 
     public void removeStudentsByMark(int mark) {
-        students.removeIf(student -> student.getAverageMark() < mark);
+        for (int i = students.size() - 1; i >= 0; i--) {
+            Student student = students.get(i);
+            if (student.getAverageMark() < mark) {
+                students.remove(i);
+            }
+        }
     }
 
     public void transferToGroup(Group newGroup) {
